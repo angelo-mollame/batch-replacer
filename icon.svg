@@ -118,14 +118,14 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="16.25"
-     inkscape:cx="64"
-     inkscape:cy="101.71261"
+     inkscape:zoom="2.8726213"
+     inkscape:cx="-42.72086"
+     inkscape:cy="76.631532"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      showgrid="false"
      units="px"
-     inkscape:window-width="2560"
+     inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
@@ -337,7 +337,7 @@
     <g
        id="g5033"
        style="fill:#000000;fill-opacity:0.48857147;filter:url(#filter5041)"
-       transform="translate(-0.0081063,0.53453904)">
+       transform="translate(-0.46400377,0.53453904)">
       <path
          style="display:inline;opacity:1;fill:#000000;fill-opacity:0.48857147;stroke-width:0.06681738"
          d="m 10.010189,8.6382453 3.96875,-3.1750003 v 1.8520833 h 5.291667 v 2.6458333 h -5.291667 v 1.8520834 z"
@@ -365,7 +365,7 @@
     </g>
     <g
        id="g5023"
-       transform="translate(-0.54739388,0.07017514)">
+       transform="translate(-1.0032913,0.07017514)">
       <path
          sodipodi:nodetypes="cccccccc"
          inkscape:connector-curvature="0"
