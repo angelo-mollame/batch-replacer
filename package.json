@@ -1,0 +1,44 @@
+{
+    "name": "batch-replacer",
+    "displayName": "Batch Replacer",
+    "description": "Allows to performs multiple text replacements at once, based on a script",
+    "version": "1.0.0",
+    "publisher": "angelomollame",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/angelo-mollame/batch-replacer"
+    },
+    "engines": {
+        "vscode": "^1.20.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onCommand:batchReplacer.batchReplace"
+    ],
+    "main": "./out/extension/Extension",
+    "icon": "icon.png",
+    "contributes": {
+        "commands": [
+            {
+                "command": "batchReplacer.batchReplace",
+                "title": "Batch Replace"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "tslint": "^5.8.0",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
