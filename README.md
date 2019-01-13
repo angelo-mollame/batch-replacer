@@ -101,7 +101,7 @@ Slashes in **regular expression metacharacters** don't need escaping either.
 //     this sentence should be obscured
 // Output
 //     ____ ________ ______ __ ________
-replace "\w"
+replace-regex "\w"
 with "_"
 ```
 
@@ -179,7 +179,7 @@ with "David"
 ### Variables
 
 Complex regular expressions can be created using variables. Variables are applied to the entire script, and should be
-defined at the beginning of the script. Variables are defined as `... = {...}` and are used as `%[...]`. Variables
+defined at the beginning of the script. Variables are defined as `... = "..."` and are used as `%[...]`. Variables
 can only be used in the `replace` and `replace-regex` instructions.
 
 ```c

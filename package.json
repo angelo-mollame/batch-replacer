@@ -2,7 +2,7 @@
     "name": "batch-replacer",
     "displayName": "Batch Replacer",
     "description": "Allows to performs multiple text replacements at once, based on a script",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "publisher": "angelomollame",
     "repository": {
         "type": "git",
