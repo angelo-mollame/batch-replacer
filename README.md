@@ -204,33 +204,4 @@ replace-regex "C:(\\%[name])*\\(%[name]%[extension])"
 with "$2"
 ```
 
-Variables can reference themselves and be overwritten. Here is an advanced example:
-
-```c
-// Input:
-//   export interface {
-//       function1(): void;
-//       function2(a: string | undefined): string[];
-//       function3(a: Map<string, number>, b: string[], c: string): Set<number> | undefined;
-//       function4(a: Class1.Type2): void;
-//   }
-//
-// Output:
-//   export interface {
-//       function1: () => void;
-//       function2: (a: string | undefined) => string[];
-//       function3: (a: Map<string, number>, b: string[], c: string) => Set<number> | undefined;
-//       function4: (a: Class1.Type2) => void;
-//   }
-
-name = "\w+"
-type = "[\w\.]+"
-type = "%[type](?:<\w+(?:, \w+)*>)?"
-type = "%[type](?:\[\])?"
-type = "%[type](?: \| %[type])?"
-parameter = "%[name]: %[type]"
-parameters = "(?:%[parameter](?:, %[parameter])*)?"
-
-replace-regex "(%[name])\((%[parameters])\): (%[type])"
-with "$1: ($2) => $3"
-```
+Variables can reference themselves and be overwritten.
