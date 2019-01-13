@@ -179,7 +179,7 @@ with "David"
 ### Variables
 
 Complex regular expressions can be created using variables. Variables are applied to the entire script, and should be
-defined at the beginning of the script. Variables are defined as `... = "..."` and are used as `%[...]`. Variables
+defined at the beginning of the script. Variables are defined as `... = "..."` and are used as `%{...}`. Variables
 can only be used in the `replace` and `replace-regex` instructions.
 
 ```c
@@ -200,8 +200,37 @@ extension = "\.(txt|jpg|docx)"
 name = "[\w\. -]+"
 
 // This is where the variables are used
-replace-regex "C:(\\%[name])*\\(%[name]%[extension])"
+replace-regex "C:(\\%{name})*\\(%{name}%{extension})"
 with "$2"
 ```
 
-Variables can reference themselves and be overwritten.
+Variables can reference themselves and be overwritten. Here is an advanced example:
+
+```c
+// Input:
+//   export interface {
+//       function1(): void;
+//       function2(a: string | undefined): string[];
+//       function3(a: Map<string, number>, b: string[], c: string): Set<number> | undefined;
+//       function4(a: Class1.Type2): void;
+//   }
+//
+// Output:
+//   export interface {
+//       function1: () => void;
+//       function2: (a: string | undefined) => string[];
+//       function3: (a: Map<string, number>, b: string[], c: string) => Set<number> | undefined;
+//       function4: (a: Class1.Type2) => void;
+//   }
+
+name = "\w+"
+type = "[\w\.]+"
+type = "%{type}(?:<\w+(?:, \w+)*>)?"
+type = "%{type}(?:\[\])?"
+type = "%{type}(?: \| %{type})?"
+parameter = "%{name}: %{type}"
+parameters = "(?:%{parameter}(?:, %{parameter})*)?"
+
+replace-regex "(%{name})\((%{parameters})\): (%{type})"
+with "$1: ($2) => $3"
+```

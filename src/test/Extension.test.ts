@@ -281,7 +281,7 @@ suite("tests", () => {
                 extension = "\\.(txt|jpg|docx)"
                 name = "[\\w\\. -]+"
 
-                replace-regex "C:(\\\\%[name])*\\\\(%[name]%[extension])"
+                replace-regex "C:(\\\\%{name})*\\\\(%{name}%{extension})"
                 with "$2"
                 `,
             expectedSuccess: true,
@@ -311,13 +311,13 @@ suite("tests", () => {
             scriptText: `
                 name = "\\w+"
                 type = "[\\w\\.]+"
-                type = "%[type](?:<\\w+(?:, \\w+)*>)?"
-                type = "%[type](?:\\[\\])?"
-                type = "%[type](?: \\| %[type])?"
-                parameter = "%[name]: %[type]"
-                parameters = "(?:%[parameter](?:, %[parameter])*)?"
+                type = "%{type}(?:<\\w+(?:, \\w+)*>)?"
+                type = "%{type}(?:\\[\\])?"
+                type = "%{type}(?: \\| %{type})?"
+                parameter = "%{name}: %{type}"
+                parameters = "(?:%{parameter}(?:, %{parameter})*)?"
 
-                replace-regex "(%[name])\\((%[parameters])\\): (%[type])"
+                replace-regex "(%{name})\\((%{parameters})\\): (%{type})"
                 with "$1: ($2) => $3"
                 `,
             expectedSuccess: true,

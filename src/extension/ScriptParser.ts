@@ -215,7 +215,7 @@ export class ScriptParser {
 
     private static resolveVariables(value: string, variables: Iterable<Variable>): string {
         for (const variable of variables) {
-            value = StringUtils.replaceAll(value, `%[${variable.name}]`, variable.value);
+            value = StringUtils.replaceAll(value, `%{${variable.name}}`, variable.value);
         }
 
         return value;
