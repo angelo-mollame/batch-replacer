@@ -71,6 +71,40 @@ The `replace-regex` instruction also allows to:
     with "Label\tAmount"
     ```
 
+### Escaping characters
+
+Unlike in most programming languages, **quotes** and **slashes** in the values of `replace` and `with` instructions
+don't need escaping.
+
+```c
+// Input:
+//     John said "oh"
+// Output
+//     John said "hello"
+replace "said "oh""
+with "said "hello""
+```
+
+```c
+// Input:
+//     C:\Users\johndoe\Documents\file1.txt
+// Output
+//     C:/Users/johndoe/Documents/file1.txt
+replace "\"
+with "/"
+```
+
+Slashes in **regular expression metacharacters** don't need escaping either.
+
+```c
+// Input:
+//     this sentence should be obscured
+// Output
+//     ____ ________ ______ __ ________
+replace "\w"
+with "_"
+```
+
 ### Filter files
 
 To restrict a command to specific files, use the `in` instruction at the beginning of the command.

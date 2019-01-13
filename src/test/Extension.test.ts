@@ -10,12 +10,16 @@ function runTestCase(testCase: TestCase) {
         async () => {
             const host: TestHost = new TestHost(testCase.scriptText, testCase.files);
             await BatchReplacer.batchReplace(host);
+            const errorMessages: string[] = host.getErrorMessages();
 
             if (testCase.expectedSuccess) {
-                assert.equal(host.getErrorMessages().length, 0, "No error messages expected");
+                if(errorMessages.length > 0) {
+                    assert.fail("Unexpected error messages: " + errorMessages.join(", "));
+                }
+
                 assertMapsEqual(host.getModifiedFiles(), testCase.expectedModifiedFiles);
             } else {
-                assertArraysEqual(host.getErrorMessages(), [testCase.expectedErrorMessage]);
+                assertArraysEqual(errorMessages, [testCase.expectedErrorMessage]);
             }
         }
     )
@@ -132,16 +136,16 @@ suite("tests", () => {
             name: "replace regex",
             files: new Map([[
                 "file1.txt",
-                "The quick brown fox jumps over the lazy dog"
+                "this sentence should be obscured"
             ]]),
             scriptText: `
-                replace-regex "fox|dog"
-                with "animal"
+                replace-regex "\\w"
+                with "_"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
                 "file1.txt",
-                "The quick brown animal jumps over the lazy animal"
+                "____ ________ ______ __ ________"
             ]])
         },
 
@@ -176,6 +180,40 @@ suite("tests", () => {
             expectedModifiedFiles: new Map([[
                 "file1.txt",
                 "Label\tAmount"
+            ]])
+        },
+
+        {
+            name: "quotes",
+            files: new Map([[
+                "file1.txt",
+                'John said "oh"'
+            ]]),
+            scriptText: `
+                replace "said "oh""
+                with "said "hello""
+                `,
+            expectedSuccess: true,
+            expectedModifiedFiles: new Map([[
+                "file1.txt",
+                'John said "hello"'
+            ]])
+        },
+
+        {
+            name: "slashes",
+            files: new Map([[
+                "file1.txt",
+                "C:\\Users\\johndoe\\Documents\\file1.txt"
+            ]]),
+            scriptText: `
+                replace "\\"
+                with "/"
+                `,
+            expectedSuccess: true,
+            expectedModifiedFiles: new Map([[
+                "file1.txt",
+                "C:/Users/johndoe/Documents/file1.txt"
             ]])
         },
 
