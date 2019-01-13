@@ -55,8 +55,8 @@ suite("tests", () => {
                 "file1.txt", "The quick brown fox jumps over the lazy dog"
             ]]),
             scriptText: `
-                replace {brown}
-                with {red}
+                replace "brown"
+                with "red"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
@@ -71,8 +71,8 @@ suite("tests", () => {
             ]]),
             scriptText: `
                 // Replace "brown" with "red"
-                replace {brown}
-                with {red}
+                replace "brown"
+                with "red"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
@@ -86,11 +86,11 @@ suite("tests", () => {
                 "file1.txt", "The quick brown fox jumps over the lazy dog"
             ]]),
             scriptText: `
-                replace {brown}
-                with {red}
+                replace "brown"
+                with "red"
 
-                replace {lazy}
-                with {stupid}
+                replace "lazy"
+                with "stupid"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
@@ -105,8 +105,8 @@ suite("tests", () => {
                 [ "file2.txt", "The quick brown dog jumps over the lazy fox" ]
             ]),
             scriptText: `
-                replace {over}
-                with {way over}
+                replace "over"
+                with "way over"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([
@@ -121,8 +121,8 @@ suite("tests", () => {
                 "file1.txt", "The quick brown fox jumps over the lazy dog"
             ]]),
             scriptText: `
-                replace {cat}
-                with {cow}
+                replace "cat"
+                with "cow"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map()
@@ -135,8 +135,8 @@ suite("tests", () => {
                 "The quick brown fox jumps over the lazy dog"
             ]]),
             scriptText: `
-                replace-regex {fox|dog}
-                with {animal}
+                replace-regex "fox|dog"
+                with "animal"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
@@ -152,8 +152,8 @@ suite("tests", () => {
                 "The quick brown fox jumps over the lazy dog"
             ]]),
             scriptText: `
-                replace-regex {(quick|lazy)}
-                with {very $1}
+                replace-regex "(quick|lazy)"
+                with "very $1"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
@@ -169,8 +169,8 @@ suite("tests", () => {
                 "Label - Amount"
             ]]),
             scriptText: `
-                replace-regex { - }
-                with {\\t}
+                replace-regex " - "
+                with "\\t"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
@@ -190,8 +190,8 @@ suite("tests", () => {
                 `
             ]]),
             scriptText: `
-                replace {tax-return-}
-                with    {tax-return-documents-}
+                replace "tax-return-"
+                with    "tax-return-documents-"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
@@ -215,8 +215,8 @@ suite("tests", () => {
                 `
             ]]),
             scriptText: `
-                replace {import }
-                with {export }
+                replace "import "
+                with "export "
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
@@ -240,11 +240,11 @@ suite("tests", () => {
                 `
             ]]),
             scriptText: `
-                extension = {\\.(txt|jpg|docx)}
-                name = {[\\w\\. -]+}
+                extension = "\\.(txt|jpg|docx)"
+                name = "[\\w\\. -]+"
 
-                replace-regex {C:(\\\\%[name])*\\\\(%[name]%[extension])}
-                with {$2}
+                replace-regex "C:(\\\\%[name])*\\\\(%[name]%[extension])"
+                with "$2"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
@@ -271,16 +271,16 @@ suite("tests", () => {
                 `
             ]]),
             scriptText: `
-                name = {\\w+}
-                type = {[\\w\\.]+}
-                type = {%[type](?:<\\w+(?:, \\w+)*>)?}
-                type = {%[type](?:\\[\\])?}
-                type = {%[type](?: \\| %[type])?}
-                parameter = {%[name]: %[type]}
-                parameters = {(?:%[parameter](?:, %[parameter])*)?}
+                name = "\\w+"
+                type = "[\\w\\.]+"
+                type = "%[type](?:<\\w+(?:, \\w+)*>)?"
+                type = "%[type](?:\\[\\])?"
+                type = "%[type](?: \\| %[type])?"
+                parameter = "%[name]: %[type]"
+                parameters = "(?:%[parameter](?:, %[parameter])*)?"
 
-                replace-regex {(%[name])\\((%[parameters])\\): (%[type])}
-                with {$1: ($2) => $3}
+                replace-regex "(%[name])\\((%[parameters])\\): (%[type])"
+                with "$1: ($2) => $3"
                 `,
             expectedSuccess: true,
             expectedModifiedFiles: new Map([[
@@ -300,100 +300,100 @@ suite("tests", () => {
             name: "invalid script - duplicate 'filter' instruction",
             files: new Map(),
             scriptText: `
-                filter *.txt
-                filter **/*.txt
+                filter "*.txt"
+                filter "**/*.txt"
 
-                replace {brown}
-                with {red}
+                replace "brown"
+                with "red"
                 `,
             expectedSuccess: false,
-            expectedErrorMessage: "Unexpected 'filter' instruction at line 3: filter **/*.txt"
+            expectedErrorMessage: `Unexpected 'filter' instruction at line 3: filter "**/*.txt"`
         },
 
         {
             name: "invalid script - duplicate 'in' instruction",
             files: new Map(),
             scriptText: `
-                in *.txt
-                in **/*.txt
-                replace {brown}
-                with {red}
+                in "*.txt"
+                in "**/*.txt"
+                replace "brown"
+                with "red"
                 `,
             expectedSuccess: false,
-            expectedErrorMessage: "Unexpected 'in' instruction at line 3: in **/*.txt"
+            expectedErrorMessage: `Unexpected 'in' instruction at line 3: in "**/*.txt"`
         },
 
         {
             name: "invalid script - duplicate 'replace' instruction",
             files: new Map(),
             scriptText: `
-                replace {brown}
-                replace {black}
-                with {red}
+                replace "brown"
+                replace "black"
+                with "red"
                 `,
             expectedSuccess: false,
-            expectedErrorMessage: "Unexpected 'replace' instruction at line 3: replace {black}"
+            expectedErrorMessage: `Unexpected 'replace' instruction at line 3: replace "black"`
         },
 
         {
             name: "invalid script - duplicate 'replace-regex' instruction",
             files: new Map(),
             scriptText: `
-                replace-regex {brown}
-                replace-regex {black}
-                with {red}
+                replace-regex "brown"
+                replace-regex "black"
+                with "red"
                 `,
             expectedSuccess: false,
-            expectedErrorMessage: "Unexpected 'replace-regex' instruction at line 3: replace-regex {black}"
+            expectedErrorMessage: `Unexpected 'replace-regex' instruction at line 3: replace-regex "black"`
         },
 
         {
             name: "invalid script - 'replace' and 'replace-regex' instruction",
             files: new Map(),
             scriptText: `
-                replace {brown}
-                replace-regex {black}
-                with {red}
+                replace "brown"
+                replace-regex "black"
+                with "red"
                 `,
             expectedSuccess: false,
-            expectedErrorMessage: "Unexpected 'replace-regex' instruction at line 3: replace-regex {black}"
+            expectedErrorMessage: `Unexpected 'replace-regex' instruction at line 3: replace-regex "black"`
         },
 
         {
             name: "invalid script - duplicate 'with' instruction",
             files: new Map(),
             scriptText: `
-                replace {brown}
-                with {red}
-                with {black}
+                replace "brown"
+                with "red"
+                with "black"
                 `,
             expectedSuccess: false,
-            expectedErrorMessage: "Unexpected 'with' instruction at line 4: with {black}"
+            expectedErrorMessage: `Unexpected 'with' instruction at line 4: with "black"`
         },
 
         {
             name: "invalid script - variable within script",
             files: new Map(),
             scriptText: `
-                replace {brown}
-                a = {b}
-                with {red}
+                replace "brown"
+                a = "b"
+                with "red"
                 `,
             expectedSuccess: false,
-            expectedErrorMessage: "Unexpected variable at line 3: a = {b}"
+            expectedErrorMessage: `Unexpected variable at line 3: a = "b"`
         },
 
         {
             name: "invalid script - variable after script",
             files: new Map(),
             scriptText: `
-                replace {brown}
-                with {red}
+                replace "brown"
+                with "red"
 
-                a = {b}
+                a = "b"
                 `,
             expectedSuccess: false,
-            expectedErrorMessage: "Unexpected variable at line 5: a = {b}"
+            expectedErrorMessage: `Unexpected variable at line 5: a = "b"`
         },
 
         {
@@ -401,8 +401,8 @@ suite("tests", () => {
             files: new Map(),
             scriptText: `
                 banana
-                replace {brown}
-                with {red}
+                replace "brown"
+                with "red"
                 `,
             expectedSuccess: false,
             expectedErrorMessage: "Unrecognized instruction at line 2: banana"
