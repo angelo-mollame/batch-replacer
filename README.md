@@ -153,6 +153,11 @@ can only be used in the `replace` and `replace-regex` instructions.
 //     C:\Users\johndoe\Desktop\My-Files\new file.txt
 //     C:\Users\johndoe\Desktop\New Folder\photo.jpg
 //     C:\Users\johndoe\My.Documents\doc.docx
+//
+// Output:
+//     new file.txt
+//     photo.jpg
+//     doc.docx
 
 // This is a variable
 extension = "\.(txt|jpg|docx)"
@@ -163,11 +168,6 @@ name = "[\w\. -]+"
 // This is where the variables are used
 replace-regex "C:(\\%[name])*\\(%[name]%[extension])"
 with "$2"
-
-// Output:
-//     new file.txt
-//     photo.jpg
-//     doc.docx
 ```
 
 Variables can reference themselves and be overwritten. Here is an advanced example:
@@ -180,6 +180,14 @@ Variables can reference themselves and be overwritten. Here is an advanced examp
 //       function3(a: Map<string, number>, b: string[], c: string): Set<number> | undefined;
 //       function4(a: Class1.Type2): void;
 //   }
+//
+// Output:
+//   export interface {
+//       function1: () => void;
+//       function2: (a: string | undefined) => string[];
+//       function3: (a: Map<string, number>, b: string[], c: string) => Set<number> | undefined;
+//       function4: (a: Class1.Type2) => void;
+//   }
 
 name = "\w+"
 type = "[\w\.]+"
@@ -191,12 +199,4 @@ parameters = "(?:%[parameter](?:, %[parameter])*)?"
 
 replace-regex "(%[name])\((%[parameters])\): (%[type])"
 with "$1: ($2) => $3"
-
-// Output:
-//   export interface {
-//       function1: () => void;
-//       function2: (a: string | undefined) => string[];
-//       function3: (a: Map<string, number>, b: string[], c: string) => Set<number> | undefined;
-//       function4: (a: Class1.Type2) => void;
-//   }
 ```
