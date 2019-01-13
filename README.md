@@ -44,7 +44,7 @@ with "Bob"
 
 ### Regular expressions
 
-In order to interpret the parameter of the `replace` instruction as a regular expression, use the `replace-regex`
+In order to interpret the value of the `replace` instruction as a regular expression, use the `replace-regex`
 instruction instead.
 
 ```c
