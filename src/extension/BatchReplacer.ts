@@ -27,7 +27,7 @@ export class BatchReplacer {
         const scriptResult: Result<Script> = ScriptParser.tryParseScript(scriptText);
 
         if (!scriptResult.success) {
-            host.showErrorMessage(scriptResult.errorMessage);
+            host.showErrorMessage("Failed to parse the script. " + scriptResult.errorMessage);
             return;
         }
 
