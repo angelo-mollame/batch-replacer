@@ -2,6 +2,8 @@ import * as FS from "fs";
 import * as vscode from "vscode";
 
 import { Host } from "./Host";
+import { Result } from "./Result";
+import { ResultUtils } from "./ResultUtils";
 
 export class VsCodeHost implements Host {
     public async findFilePaths(filePattern: string): Promise<Set<string>> {
@@ -11,17 +13,6 @@ export class VsCodeHost implements Host {
 
     public hasOpenFolders(): boolean {
         return !!vscode.workspace.workspaceFolders;
-    }
-
-    public getScriptText(): string | undefined {
-        const editor: vscode.TextEditor | undefined = vscode.window.activeTextEditor;
-
-        if (!editor) {
-            return;
-        }
-
-        const document: vscode.TextDocument = editor.document;
-        return document.getText();
     }
 
     public readFile(filePath: string): string {
@@ -34,6 +25,19 @@ export class VsCodeHost implements Host {
 
     public showInformationMessage(informationMessage: string): void {
         vscode.window.showInformationMessage(informationMessage);
+    }
+
+    public tryGetScriptText(): Result<string> {
+        const editor: vscode.TextEditor | undefined = vscode.window.activeTextEditor;
+
+        if (!editor) {
+            return ResultUtils.failure(
+                "There is no active text editor. " +
+                "Make sure to run the command when your script is in the active text editor.");
+        }
+
+        const document: vscode.TextDocument = editor.document;
+        return ResultUtils.success(document.getText());
     }
 
     public writeFile(filePath: string, content: string): void {

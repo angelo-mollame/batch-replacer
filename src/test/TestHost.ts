@@ -1,4 +1,6 @@
 import { Host } from "../extension/Host";
+import { Result } from "../extension/Result";
+import { ResultUtils } from "../extension/ResultUtils";
 
 export class TestHost implements Host {
     private readonly scriptText: string;
@@ -26,10 +28,6 @@ export class TestHost implements Host {
         return this.modifiedFiles;
     }
 
-    public getScriptText(): string | undefined {
-        return this.scriptText;
-    }
-
     public hasOpenFolders(): boolean {
         return true;
     }
@@ -47,6 +45,10 @@ export class TestHost implements Host {
     }
 
     public showInformationMessage(): void {
+    }
+
+    public tryGetScriptText(): Result<string> {
+        return ResultUtils.success(this.scriptText);
     }
 
     public writeFile(filePath: string, content: string): void {

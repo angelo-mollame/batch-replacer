@@ -16,12 +16,14 @@ export class BatchReplacer {
             return;
         }
 
-        const scriptText: string | undefined = host.getScriptText();
+        const scriptTextResult: Result<string> = host.tryGetScriptText();
 
-        if (!scriptText) {
+        if (!scriptTextResult.success) {
+            host.showErrorMessage(scriptTextResult.errorMessage);
             return;
         }
 
+        const scriptText: string = scriptTextResult.value;
         const scriptResult: Result<Script> = ScriptParser.tryParseScript(scriptText);
 
         if (!scriptResult.success) {
