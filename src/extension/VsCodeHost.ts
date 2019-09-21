@@ -9,6 +9,10 @@ export class VsCodeHost implements Host {
         return new Set<string>(files.map(file => file.fsPath));
     }
 
+    public hasOpenFolders(): boolean {
+        return !!vscode.workspace.workspaceFolders;
+    }
+
     public getScriptText(): string | undefined {
         const editor: vscode.TextEditor | undefined = vscode.window.activeTextEditor;
 

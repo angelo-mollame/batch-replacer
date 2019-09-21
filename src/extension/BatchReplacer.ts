@@ -7,6 +7,15 @@ import { StringUtils } from "./StringUtils";
 
 export class BatchReplacer {
     public static async batchReplace(host: Host): Promise<void> {
+        if (!host.hasOpenFolders()) {
+            host.showErrorMessage(
+                "There are no open folders. " +
+                "Make sure to open at least one folder in Visual Studio Code. " +
+                "The script will perform the replacements in the files in the open folders.");
+
+            return;
+        }
+
         const scriptText: string | undefined = host.getScriptText();
 
         if (!scriptText) {

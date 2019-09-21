@@ -1,5 +1,6 @@
 export interface Host {
     findFilePaths(filePattern: string): Promise<Set<string>>;
+    hasOpenFolders(): boolean;
     getScriptText(): string | undefined;
     readFile(filePath: string): string;
     showErrorMessage(errorMessage: string): void;

@@ -30,6 +30,10 @@ export class TestHost implements Host {
         return this.scriptText;
     }
 
+    public hasOpenFolders(): boolean {
+        return true;
+    }
+
     public readFile(filePath: string): string {
         if (!this.files.has(filePath)) {
             throw new Error("File not found: " + filePath);
